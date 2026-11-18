@@ -48,9 +48,10 @@ img { display: block; max-width: 100%; }
 .masthead-inner { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; min-height: 5rem; }
 .signature { flex: none; display: inline-flex; align-items: center; gap: .8rem; min-height: 2.75rem; text-decoration: none; }
 .signature img { width: 6rem; height: auto; }
-.signature span { font-family: var(--mono); font-size: .75rem; letter-spacing: -.025em; line-height: 1; }
+.signature span { font-family: var(--mono); font-size: .74rem; line-height: 1; white-space: nowrap; }
 nav { display: flex; gap: clamp(1rem, 3.3vw, 3.5rem); align-items: center; }
 nav a, .contact a, .action { display: inline-flex; align-items: center; gap: .52rem; min-height: 2.75rem; }
+.nav-short { display: none; }
 nav a { text-decoration: none; font-size: .875rem; }
 nav a:hover, .to-top:hover { text-decoration: underline; }
 nav svg, .action svg, .contact svg { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; flex: none; }
@@ -132,9 +133,16 @@ h2 { font-size: clamp(2.9rem, 5.1vw, 5.1rem); line-height: 1.05; }
   .colophon { gap: .5rem; }
 }
 
-@media (max-width: 360px) {
-  .masthead-inner { width: calc(100% - 1.5rem); }
-  .signature img { width: 3.37rem; }
+@media (max-width: 400px) {
+  .nav-full { display: none; }
+  .nav-short { display: inline; }
   nav { gap: .6rem; }
+  nav a { white-space: nowrap; }
+}
+@media (max-width: 360px) {
+  .masthead-inner { width: calc(100% - 1.2rem); gap: .3rem; }
+  .signature { gap: .3rem; }
+  .signature img { width: 3.37rem; }
+  nav { gap: .47rem; }
   nav a { font-size: .75rem; white-space: nowrap; }
 }
