@@ -19,26 +19,23 @@ function petalInk(x, y, offset) {
   return clamp(Math.max(outer, inner));
 }
 
-// Print the flower once in grid coordinates. Input only controls how much ink is visible.
-function makeDots() {
-  const dots = [];
-  for (let row = 0; row < 32; row++) {
-    for (let col = 0; col < 42; col++) {
-      const nx = (col / 41 - .5) * 2.18;
-      const ny = (row / 31 - .5) * 1.70;
-      const p = petalInk(nx, ny, .12);
-      const v = petalInk(nx, ny, -.12);
-      const ink = Math.max(p, v);
-      const overlap = Math.min(p, v) ** .8;
-      const color = paper.map((grey, i) => {
-        if (!ink) return grey - 26;
-        const single = (pink[i] * p + violet[i] * v) / (p + v);
-        return grey + (single + (overprint[i] - single) * overlap - grey) * Math.min(1, ink * 2.6);
-      });
-      dots.push({ x: 13 + col * pitch, y: 17 + row * pitch, ink, color, growth: .65 + 4.25 * Math.sqrt(ink), end: 0 });
-    }
+// Keep the original 42-by-32 print in the desktop artwork. Outside it, the same lattice uses grey ink.
+function makeDot(col, row, hasFlower) {
+  let p = 0, v = 0;
+  if (hasFlower && col >= 0 && col < 42 && row >= 0 && row < 32) {
+    const x = (col / 41 - .5) * 2.18;
+    const y = (row / 31 - .5) * 1.70;
+    p = petalInk(x, y, .12);
+    v = petalInk(x, y, -.12);
   }
-  return dots;
+  const ink = Math.max(p, v);
+  const overlap = Math.min(p, v) ** .8;
+  const color = paper.map((grey, i) => {
+    if (!ink) return grey - 26;
+    const single = (pink[i] * p + violet[i] * v) / (p + v);
+    return grey + (single + (overprint[i] - single) * overlap - grey) * Math.min(1, ink * 2.6);
+  });
+  return { x: 13 + col * pitch, y: 17 + row * pitch, ink, color, growth: .65 + 4.25 * Math.sqrt(ink), end: 0 };
 }
 
 function strengthAt(dot, time) {
@@ -49,81 +46,92 @@ function strengthAt(dot, time) {
   return dot.to * (1 - smooth((time - dot.release) / (dot.end - dot.release)));
 }
 
-function installBloom(button) {
-  const canvas = button.querySelector('canvas');
-  const background = button.closest('.hero').querySelector('.hero-dots');
-  const pattern = background.querySelector('pattern');
+function installBloom(hero) {
+  const canvas = hero.querySelector('.hero-ink');
   const ctx = canvas.getContext('2d');
   if (!ctx || !window.ResizeObserver) return;
-  const dots = makeDots();
+  const background = hero.querySelector('.hero-dots');
+  const pattern = background.querySelector('pattern');
+  const field = hero.querySelector('.pattern-field');
+  const button = field.querySelector('button');
+  const inner = hero.querySelector('.hero-inner');
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const active = new Map();
+  let scaleX, scaleY, originX, originY, hasFlower;
   let frame = 0;
-  let lastCell = -1;
+  let lastCell = '';
 
   function paint(now) {
-    ctx.clearRect(0, 0, width, height);
-    let remaining = false;
-    for (const dot of dots) {
-      if (now >= dot.end) continue;
-      remaining = true;
+    ctx.save();
+    ctx.resetTransform();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.restore();
+    for (const [key, dot] of active) {
+      if (now >= dot.end) {
+        active.delete(key);
+        continue;
+      }
       const strength = strengthAt(dot, now);
       if (strength <= 0) continue;
       const color = dot.color.map((channel, i) => Math.round(paper[i] + (channel - paper[i]) * strength));
-      const r = radius + dot.growth * strength;
       ctx.beginPath();
-      ctx.arc(dot.x, dot.y, r, 0, Math.PI * 2);
+      ctx.arc(dot.x, dot.y, radius + dot.growth * strength, 0, Math.PI * 2);
       ctx.fillStyle = `rgb(${color.join(',')})`;
       ctx.fill();
     }
-    return remaining;
   }
 
   function animate(now) {
     frame = 0;
-    if (paint(now) && !document.hidden) frame = requestAnimationFrame(animate);
+    paint(now);
+    if (active.size && !document.hidden) frame = requestAnimationFrame(animate);
   }
 
   function reveal(x, y, wholeFlower = false) {
     const now = performance.now();
-    for (const dot of dots) {
-      const distance = Math.hypot(dot.x - x, dot.y - y);
-      if (wholeFlower ? !dot.ink : distance >= brushRadius) continue;
-      const amount = wholeFlower ? 1 : smooth(1 - (distance / brushRadius) ** 2);
-      const previous = strengthAt(dot, now);
-      // A grazing pass should never snuff out a brighter, still-opening petal.
-      if (now < dot.release && dot.to > amount) continue;
-      dot.from = previous;
-      dot.to = Math.max(previous, amount);
-      dot.start = now + (motion.matches ? 0 : Math.min(distance, brushRadius) * .48);
-      dot.peak = dot.start + (motion.matches ? 0 : 135);
-      dot.release = dot.peak + 130 + 90 * amount;
-      dot.end = dot.release + (motion.matches ? 150 : 520);
+    const firstCol = wholeFlower ? 0 : Math.ceil((x - brushRadius - 13) / pitch);
+    const lastCol = wholeFlower ? 41 : Math.floor((x + brushRadius - 13) / pitch);
+    const firstRow = wholeFlower ? 0 : Math.ceil((y - brushRadius - 17) / pitch);
+    const lastRow = wholeFlower ? 31 : Math.floor((y + brushRadius - 17) / pitch);
+    for (let row = firstRow; row <= lastRow; row++) {
+      for (let col = firstCol; col <= lastCol; col++) {
+        const distance = Math.hypot(13 + col * pitch - x, 17 + row * pitch - y);
+        if (!wholeFlower && distance >= brushRadius) continue;
+        const key = `${col},${row}`;
+        const dot = active.get(key) || makeDot(col, row, hasFlower);
+        if (wholeFlower && !dot.ink) continue;
+        const amount = wholeFlower ? 1 : smooth(1 - (distance / brushRadius) ** 2);
+        if (now < dot.release && dot.to > amount) continue;
+        dot.from = strengthAt(dot, now);
+        dot.to = Math.max(dot.from, amount);
+        dot.start = now + (motion.matches ? 0 : Math.min(distance, brushRadius) * .48);
+        dot.peak = dot.start + (motion.matches ? 0 : 135);
+        dot.release = dot.peak + 130 + 90 * amount;
+        dot.end = dot.release + (motion.matches ? 150 : 520);
+        active.set(key, dot);
+      }
     }
     if (!frame) frame = requestAnimationFrame(animate);
   }
 
-  function brush(event, repeat = false) {
+  function brush(event) {
+    if (!event.isPrimary) return;
     const bounds = canvas.getBoundingClientRect();
-    const x = (event.clientX - bounds.left) * width / bounds.width;
-    const y = (event.clientY - bounds.top) * height / bounds.height;
-    const col = Math.round((x - 13) / pitch);
-    const row = Math.round((y - 17) / pitch);
-    const cell = row * 44 + col;
-    if (cell === lastCell && !repeat) return;
+    const x = (event.clientX - bounds.left - originX) / scaleX;
+    const y = (event.clientY - bounds.top - originY) / scaleY;
+    const cell = `${Math.round((x - 13) / pitch)},${Math.round((y - 17) / pitch)}`;
+    if (cell === lastCell && event.type !== 'pointerdown') return;
     lastCell = cell;
     reveal(x, y);
   }
 
-  button.addEventListener('pointermove', event => {
-    if (event.pointerType !== 'touch') brush(event);
-  });
-  button.addEventListener('pointerenter', event => {
-    if (event.pointerType !== 'touch') brush(event);
-  });
-  button.addEventListener('pointerleave', () => { lastCell = -1; });
+  // Listen on the section so pointer and touch can pass through the artwork to links and text.
+  hero.addEventListener('pointermove', brush, { passive: true });
+  hero.addEventListener('pointerenter', brush, { passive: true });
+  hero.addEventListener('pointerdown', brush, { passive: true });
+  hero.addEventListener('pointerleave', () => { lastCell = ''; });
   button.addEventListener('click', event => {
-    if (!event.detail) reveal(width / 2, height / 2, true);
-    else brush(event, true);
+    if (hasFlower && !event.detail) reveal(width / 2, height / 2, true);
   });
   document.addEventListener('visibilitychange', () => {
     cancelAnimationFrame(frame);
@@ -131,24 +139,31 @@ function installBloom(button) {
     if (!document.hidden) animate(performance.now());
   });
 
-  button.hidden = false;
   function resize() {
-    const bounds = canvas.getBoundingClientRect();
+    const bounds = field.getBoundingClientRect();
     const backdrop = background.getBoundingClientRect();
-    // Continue the flower's lattice across the hero from the same origin and at the same scale.
-    const offsetX = bounds.left - backdrop.left;
-    const offsetY = bounds.top - backdrop.top;
-    pattern.setAttribute('patternTransform', `matrix(${bounds.width / width} 0 0 ${bounds.height / height} ${offsetX} ${offsetY})`);
+    if (!backdrop.width || !backdrop.height) return;
+    hasFlower = bounds.width > 0 && bounds.height > 0;
+    button.hidden = !hasFlower;
+    const mobileScale = Math.min(inner.clientWidth, 432) / width;
+    scaleX = hasFlower ? bounds.width / width : mobileScale;
+    scaleY = hasFlower ? bounds.height / height : mobileScale;
+    originX = hasFlower ? bounds.left - backdrop.left : 0;
+    originY = hasFlower ? bounds.top - backdrop.top : 0;
+    pattern.setAttribute('patternTransform', `matrix(${scaleX} 0 0 ${scaleY} ${originX} ${originY})`);
     const dpr = Math.min(devicePixelRatio || 1, 2);
-    canvas.width = Math.max(1, Math.round(bounds.width * dpr));
-    canvas.height = Math.max(1, Math.round(bounds.height * dpr));
-    ctx.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
-    paint(performance.now());
+    canvas.width = Math.max(1, Math.round(backdrop.width * dpr));
+    canvas.height = Math.max(1, Math.round(backdrop.height * dpr));
+    const pixelX = canvas.width / backdrop.width, pixelY = canvas.height / backdrop.height;
+    ctx.setTransform(pixelX * scaleX, 0, 0, pixelY * scaleY, pixelX * originX, pixelY * originY);
+    active.clear();
+    lastCell = '';
   }
   resize();
   const layout = new ResizeObserver(resize);
-  layout.observe(button);
+  layout.observe(field);
+  layout.observe(inner);
   layout.observe(background);
 }
 
-document.querySelectorAll('.pattern-control').forEach(installBloom);
+document.querySelectorAll('.hero').forEach(installBloom);

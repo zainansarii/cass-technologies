@@ -62,7 +62,8 @@ nav svg, .action svg, .contact svg { width: 1em; height: 1em; fill: none; stroke
 .contact-nav { border: 1px solid #aaa0ab; border-radius: 2rem; padding-inline: 1.08rem; }
 .contact-nav:hover { background: #f0e8f6; text-decoration: none; }
 .hero { position: relative; isolation: isolate; border-bottom: 1px solid var(--line); }
-.hero-dots { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.hero-dots, .hero-ink { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.hero-ink { width: 100%; height: 100%; }
 .hero-inner { display: grid; grid-template-columns: 1fr 1.06fr; align-items: center; padding-block: clamp(3.2rem, 5.4vw, 6.3rem); gap: 1vw; }
 .hero-copy { position: relative; z-index: 1; }
 h1, h2, .statement { font-family: var(--display); font-weight: 500; letter-spacing: -.042em; }
@@ -75,7 +76,6 @@ h1 em { font-weight: inherit; color: var(--violet); }
 .hero-visual { min-width: 0; margin: 0; }
 .pattern-field { position: relative; aspect-ratio: 600 / 468; }
 .pattern-control { display: block; position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; cursor: crosshair; touch-action: manipulation; }
-.pattern-control canvas { display: block; width: 100%; height: 100%; }
 .pattern-control:focus-visible { outline-offset: 2px; }
 .pattern-control[hidden] { display: none; }
 h2 { font-size: clamp(2.9rem, 5.1vw, 5.1rem); line-height: 1.05; }
@@ -118,19 +118,20 @@ h2 { font-size: clamp(2.9rem, 5.1vw, 5.1rem); line-height: 1.05; }
   .company-inner, .contact-inner { grid-template-columns: 1fr; }
   .details { justify-self: start; }
 }
+@media (max-width: 600px), (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 600px) {
+  .signature span, .hero-visual { display: none; }
+  .hero-inner { grid-template-columns: 1fr; padding-block: clamp(2.4rem, 8vw, 3.3rem); }
+}
 @media (max-width: 600px) {
   .masthead-inner { gap: .55rem; }
   .signature { gap: .40rem; }
   .signature img { width: 4rem; }
-  .signature span { font-size: .59rem; }
   nav { gap: clamp(.68rem, 3.9vw, 1.35rem); }
   nav a { font-size: .78rem; }
   .contact-nav { border: 0; padding: 0; }
   .contact-nav svg { display: none; }
-  .hero-inner { grid-template-columns: 1fr; padding-block: clamp(2.4rem, 8vw, 3.3rem) 1rem; }
   h1 { font-size: clamp(3.5rem, 14.6vw, 5.3rem); }
   .hero-copy p { margin: 1.1rem 0 1.15rem; }
-  .hero-visual { width: 100%; max-width: 27rem; margin: 1.8rem auto .8rem; }
   .company-inner { gap: 2rem; }
   .company h2 { font-size: 2rem; }
   .company-copy .statement { font-size: clamp(2.4rem, 9vw, 3.1rem); }
