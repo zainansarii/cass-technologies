@@ -1,14 +1,9 @@
 // Ported from getcass/web-app: src/app/components/JournalDotPattern.tsx (22728ff).
-const DESKTOP_GRID_SIZE = 33;
 const DESKTOP_DOT_RADIUS = 1.4;
-const MOBILE_GRID_SIZE_MIN = 25.5;
-const MOBILE_GRID_SIZE_MAX = 30;
-const MOBILE_GRID_SIZE_VIEWPORT_RATIO = 0.072;
 const MOBILE_DOT_RADIUS_MIN = 0.82;
 const MOBILE_DOT_RADIUS_MAX = 1.01;
 const MOBILE_DOT_RADIUS_VIEWPORT_RATIO = 0.00235;
 const TAU = Math.PI * 2;
-const GREY = '#a8a8a8';
 const PINK = '#ff23b6';
 const PURPLE = '#8f5fff';
 const COURTSHIP_DURATION_MIN = 20;
@@ -328,12 +323,8 @@ const buildScene = (canvas, seed) => {
   context.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
   const largestDimension = Math.max(width, height);
   const isDesktop = window.matchMedia('(min-width: 64rem)').matches;
-  const gridSize = isDesktop
-    ? DESKTOP_GRID_SIZE
-    : Math.min(
-        MOBILE_GRID_SIZE_MAX,
-        Math.max(MOBILE_GRID_SIZE_MIN, width * MOBILE_GRID_SIZE_VIEWPORT_RATIO),
-      );
+  // The company grid determines the samples; the cluster fields use viewport coordinates.
+  const gridSize = Math.min(17, Math.max(8, width * .011));
   const dotRadius = isDesktop
     ? DESKTOP_DOT_RADIUS
     : Math.min(
@@ -346,8 +337,12 @@ const buildScene = (canvas, seed) => {
   const pairs = createPairs(random, extentX, extentY, isDesktop);
   const fields = pairs.flatMap(({ pink, purple }) => [pink, purple]);
   const dots = [];
-  for (let y = 0, row = 0; y <= height; y += gridSize, row += 1) {
-    for (let x = 0, column = 0; x <= width; x += gridSize, column += 1) {
+  const rows = Math.ceil(height / gridSize);
+  const columns = Math.ceil(width / gridSize);
+  for (let row = 0; row < rows; row++) {
+    const y = (row + .5) * gridSize;
+    for (let column = 0; column < columns; column++) {
+      const x = (column + .5) * gridSize;
       dots.push({
         activation: 0,
         color: null,
@@ -360,8 +355,8 @@ const buildScene = (canvas, seed) => {
     }
   }
   return {
-    canvas,
     context,
+    gridSize,
     dotRadius,
     dots,
     fields,
@@ -374,15 +369,6 @@ const buildScene = (canvas, seed) => {
     purpleDots: [],
     width,
   };
-};
-const drawDots = (context, dots, color, radius) => {
-  context.beginPath();
-  dots.forEach(({ x, y }) => {
-    context.moveTo(x + radius, y);
-    context.arc(x, y, radius, 0, TAU);
-  });
-  context.fillStyle = color;
-  context.fill();
 };
 const drawScaledDots = (context, dots, scales, color, baseRadius) => {
   context.beginPath();
@@ -461,12 +447,12 @@ const paintScene = (scene, elapsedSeconds, settleImmediately = false) => {
   });
   context.clearRect(0, 0, width, height);
   context.globalAlpha = 1;
-  drawDots(context, dots, GREY, dotRadius);
   drawScaledDots(context, purpleDots, purpleDotScales, PURPLE, dotRadius);
   drawScaledDots(context, pinkDots, pinkDotScales, PINK, dotRadius);
 };
 
 function installJournalDots(canvas) {
+  const pattern = canvas.closest('.hero').querySelector('.hero-dots pattern');
   const seed = createSeed();
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let scene = null;
@@ -487,7 +473,7 @@ function installJournalDots(canvas) {
     if (resizePending) {
       scene = buildScene(canvas, seed);
       resizePending = false;
-      canvas.toggleAttribute('data-painted', Boolean(scene));
+      if (scene) pattern.setAttribute('patternTransform', `scale(${scene.gridSize / 14})`);
     }
     if (!scene) return;
 
@@ -532,4 +518,4 @@ function installJournalDots(canvas) {
   schedule();
 }
 
-document.querySelectorAll('canvas.hero-dots').forEach(installJournalDots);
+document.querySelectorAll('canvas.hero-clusters').forEach(installJournalDots);
