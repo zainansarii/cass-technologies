@@ -1,0 +1,172 @@
+.portfolio {
+  padding-block: clamp(4rem, 7.8vw, 7.5rem);
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.1rem, 2.1vw, 2rem);
+  margin-top: clamp(1.8rem, 3.3vw, 3rem);
+}
+
+.portfolio-project {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.project-art {
+  display: grid;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.12;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 3px;
+}
+
+.project-art img {
+  z-index: 1;
+  display: block;
+  height: auto;
+  pointer-events: none;
+}
+
+.project-art--macros {
+  background: #f2ece1;
+}
+
+.project-art--macros::before,
+.project-art--macros::after {
+  position: absolute;
+  inset: 0;
+  background: url("assets/macros-streak.webp") 62% 22% / 143% auto no-repeat;
+  content: "";
+}
+
+.project-art--macros::after {
+  opacity: 0.78;
+  transform: rotate(180deg);
+  background-position: 90% 0%;
+  background-size: 110% auto;
+}
+
+.project-art--macros img {
+  width: 68%;
+}
+
+.project-art--petey {
+  background: #c9ff5c url("assets/petey-orbits.svg") center / cover;
+}
+
+.project-art--petey img {
+  width: 48%;
+}
+
+.project-art--cass {
+  background: #19171d url("assets/cass-night-dots.svg") center / cover;
+}
+
+.project-art--cass:has(.journal-dots[data-ready]) {
+  background-image: none;
+}
+
+.project-art--cass .journal-dots {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.project-art--cass img {
+  width: 66%;
+}
+
+.portfolio-project h3 {
+  margin: 1.25rem 0 0;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: clamp(1.65rem, 2.3vw, 2.25rem);
+  font-weight: 550;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.portfolio-project p {
+  max-width: 38ch;
+  margin: 0.65rem 0 1.1rem;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.project-link, .project-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.48rem;
+  min-height: 2.75rem;
+  margin-top: auto;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.project-link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 0.3em;
+}
+
+.project-link:hover, .project-link:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+.project-link svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  transition: transform 160ms ease-out;
+}
+
+.project-link:hover svg {
+  transform: translate(2px, -2px);
+}
+
+.project-status {
+  color: var(--muted);
+}
+
+@media (max-width: 700px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    row-gap: 2.6rem;
+  }
+
+  .project-art {
+    aspect-ratio: 1.48;
+  }
+
+  .portfolio-project h3 {
+    margin-top: 1rem;
+  }
+
+  .portfolio-project p {
+    max-width: 46ch;
+    margin-bottom: 0.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-link svg {
+    transition: none;
+  }
+
+  .project-link:hover svg {
+    transform: none;
+  }
+}

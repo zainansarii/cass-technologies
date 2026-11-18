@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 360" fill="none">
+  <defs>
+    <pattern id="dot" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r=".65" fill="#587e27" opacity=".25"/>
+    </pattern>
+    <radialGradient id="fade">
+      <stop offset=".4" stop-color="white" stop-opacity="0"/>
+      <stop offset=".92" stop-color="white"/>
+    </radialGradient>
+    <mask id="edges"><path fill="url(#fade)" d="M0 0h420v360H0z"/></mask>
+  </defs>
+  <path fill="url(#dot)" d="M0 0h420v360H0z"/>
+  <g mask="url(#edges)" stroke="#446818" stroke-width="1.05" opacity=".54">
+    <g transform="rotate(-31 210 180)">
+      <ellipse cx="207" cy="155" rx="307" ry="117"/>
+      <ellipse cx="208" cy="157" rx="300" ry="123"/>
+      <ellipse cx="209" cy="160" rx="292" ry="130"/>
+      <ellipse cx="210" cy="163" rx="283" ry="137"/>
+      <ellipse cx="211" cy="166" rx="273" ry="145"/>
+      <ellipse cx="212" cy="170" rx="262" ry="154"/>
+      <ellipse cx="213" cy="174" rx="251" ry="164"/>
+      <ellipse cx="214" cy="178" rx="239" ry="175"/>
+      <ellipse cx="215" cy="184" rx="227" ry="187"/>
+      <ellipse cx="216" cy="190" rx="215" ry="200"/>
+      <ellipse cx="217" cy="197" rx="202" ry="214"/>
+      <ellipse cx="218" cy="204" rx="189" ry="229"/>
+    </g>
+  </g>
+</svg>
