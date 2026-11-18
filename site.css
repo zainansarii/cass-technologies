@@ -48,7 +48,11 @@ img { display: block; max-width: 100%; }
 .masthead-inner { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; min-height: 5rem; }
 .signature { flex: none; display: inline-flex; align-items: center; gap: .8rem; min-height: 2.75rem; text-decoration: none; }
 .signature img { width: 6rem; height: auto; }
-.signature span { font-family: var(--mono); font-size: .74rem; line-height: 1; white-space: nowrap; }
+/* Align the capital ink to the dotted wordmark. Older engines use the font's optical offset. */
+.signature span { font-family: var(--mono); font-size: .74rem; line-height: 1; white-space: nowrap; transform: translateY(.10em); }
+@supports (text-box: trim-both cap alphabetic) {
+  .signature span { text-box: trim-both cap alphabetic; transform: translateY(.35px); }
+}
 nav { display: flex; gap: clamp(1rem, 3.3vw, 3.5rem); align-items: center; }
 nav a, .contact a, .action { display: inline-flex; align-items: center; gap: .52rem; min-height: 2.75rem; }
 .nav-short { display: none; }
