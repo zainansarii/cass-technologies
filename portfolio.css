@@ -4,7 +4,7 @@
 
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1.1rem, 2.1vw, 2rem);
   margin-top: clamp(1.8rem, 3.3vw, 3rem);
 }
@@ -20,7 +20,7 @@
   display: grid;
   position: relative;
   width: 100%;
-  aspect-ratio: 1.12;
+  aspect-ratio: 16 / 9;
   place-items: center;
   overflow: hidden;
   isolation: isolate;
@@ -54,7 +54,7 @@
 }
 
 .project-art--macros img {
-  width: 68%;
+  width: min(68%, 19rem);
 }
 
 .project-art--petey {
@@ -62,28 +62,7 @@
 }
 
 .project-art--petey img {
-  width: 48%;
-}
-
-.project-art--cass {
-  background: #fff url("assets/cass-journal-dots.svg") center / cover;
-}
-
-.project-art--cass:has(.journal-dots[data-ready]) {
-  background-image: none;
-}
-
-.project-art--cass .journal-dots {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.project-art--cass img {
-  width: 66%;
-  filter: brightness(0);
+  width: min(48%, 14rem);
 }
 
 .portfolio-project h3 {
@@ -104,7 +83,7 @@
   line-height: 1.55;
 }
 
-.project-link, .project-status {
+.project-link {
   display: inline-flex;
   align-items: center;
   gap: 0.48rem;
@@ -112,9 +91,6 @@
   margin-top: auto;
   font-family: var(--mono);
   font-size: 0.8rem;
-}
-
-.project-link {
   color: var(--ink);
   text-decoration: underline;
   text-decoration-color: var(--line);
@@ -136,10 +112,6 @@
 
 .project-link:hover svg {
   transform: translate(2px, -2px);
-}
-
-.project-status {
-  color: var(--muted);
 }
 
 @media (max-width: 700px) {

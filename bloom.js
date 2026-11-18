@@ -94,8 +94,8 @@ function installBloom(button) {
       dot.to = Math.max(previous, amount);
       dot.start = now + (motion.matches ? 0 : Math.min(distance, brushRadius) * .48);
       dot.peak = dot.start + (motion.matches ? 0 : 135);
-      dot.release = dot.peak + 900 + 170 * amount;
-      dot.end = dot.release + (motion.matches ? 150 : 720);
+      dot.release = dot.peak + 130 + 90 * amount;
+      dot.end = dot.release + (motion.matches ? 150 : 520);
     }
     if (!frame) frame = requestAnimationFrame(animate);
   }

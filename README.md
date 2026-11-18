@@ -1,6 +1,6 @@
 # Cass Technologies Ltd
 
-The public company website for Cass Technologies Ltd, the UK software company behind Macros, Petey and Cass.
+The public company website for Cass Technologies Ltd, the UK health and fitness software company behind Macros and Petey.
 
 ## Preview locally
 
@@ -12,4 +12,4 @@ GitHub Pages serves the root of the `main` branch. The production domain is `get
 
 ## Design and assets
 
-The Cass wordmark and journal-dot treatment are adapted from the original Cass web app. The company header uses lowercase TAN Nimbus lettering in offset pink and violet dots. The dots in the hero reveal a stationary five-petal bloom. Pointer and touch uncover nearby petals, while keyboard activation reveals the whole flower. Each impression briefly holds and fades back to the neutral grid. The portfolio uses the Macros, Petey and Cass wordmarks. Fraunces, JetBrains Mono and the Momo Trust Display face in the Macros wordmark are distributed under the SIL Open Font License. Their notices are in `licenses/`.
+The company header uses lowercase TAN Nimbus lettering in offset pink and violet dots. The dots in the hero reveal a stationary five-petal bloom. Pointer and touch uncover nearby petals, while keyboard activation reveals the whole flower. Each impression briefly holds and fades back to the neutral grid. The portfolio uses the Macros and Petey wordmarks. Fraunces, JetBrains Mono and the Momo Trust Display face in the Macros wordmark are distributed under the SIL Open Font License. Their notices are in `licenses/`.
