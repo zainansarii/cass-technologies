@@ -47,7 +47,7 @@ img { display: block; max-width: 100%; }
 .masthead { border-bottom: 1px solid var(--line); }
 .masthead-inner { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; min-height: 5rem; }
 .signature { flex: none; display: inline-flex; align-items: center; gap: .8rem; min-height: 2.75rem; text-decoration: none; }
-.signature img { width: 4.75rem; height: auto; }
+.signature img { width: 6rem; height: auto; }
 .signature span { font-family: var(--mono); font-size: .75rem; letter-spacing: -.025em; line-height: 1; }
 nav { display: flex; gap: clamp(1rem, 3.3vw, 3.5rem); align-items: center; }
 nav a, .contact a, .action { display: inline-flex; align-items: center; gap: .52rem; min-height: 2.75rem; }
@@ -69,22 +69,10 @@ h1 em { font-weight: inherit; color: var(--violet); }
 .hero-visual { min-width: 0; margin: 0; }
 .pattern-field { position: relative; aspect-ratio: 600 / 468; }
 .pattern-fallback { width: 100%; height: auto; }
-.pattern-control { display: none; position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; cursor: crosshair; touch-action: manipulation; }
+.pattern-control { display: block; position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; cursor: crosshair; touch-action: manipulation; }
 .pattern-control canvas { display: block; width: 100%; height: 100%; }
 .pattern-control:focus-visible { outline-offset: 2px; }
-.interactive .pattern-control { display: block; }
-.interactive .pattern-fallback { visibility: hidden; }
-.pattern-caption { visibility: hidden; display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .65rem 2% 0; font: .71rem/1.5 var(--mono); color: var(--muted); }
-.interactive .pattern-caption { visibility: visible; }
-.pattern-name { color: var(--violet); }
-.tap-hint, .key-hint { display: none; }
-@media (hover: none) {
-  .hover-hint { display: none; }
-  .tap-hint { display: inline; }
-}
-.dot-study:has(.pattern-control:focus-visible) :is(.hover-hint, .tap-hint) { display: none; }
-.dot-study:has(.pattern-control:focus-visible) .key-hint { display: inline; }
-.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.pattern-control[hidden] { display: none; }
 h2 { font-size: clamp(2.9rem, 5.1vw, 5.1rem); line-height: 1.05; }
 .company { border-block: 1px solid var(--line); background: #f1eaf5; }
 .company-inner, .contact-inner { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(2rem, 7vw, 7rem); }
@@ -116,7 +104,7 @@ h2 { font-size: clamp(2.9rem, 5.1vw, 5.1rem); line-height: 1.05; }
 @media (max-width: 760px) {
   .masthead-inner { min-height: 4.25rem; }
   .signature { gap: .5rem; }
-  .signature img { width: 3.5rem; }
+  .signature img { width: 4.5rem; }
   .signature span { font-size: .64rem; }
   nav { gap: 1rem; }
   .contact-nav { padding-inline: .85rem; }
@@ -128,7 +116,7 @@ h2 { font-size: clamp(2.9rem, 5.1vw, 5.1rem); line-height: 1.05; }
 @media (max-width: 600px) {
   .masthead-inner { gap: .55rem; }
   .signature { gap: .40rem; }
-  .signature img { width: 3.25rem; }
+  .signature img { width: 4rem; }
   .signature span { font-size: .59rem; }
   nav { gap: clamp(.68rem, 3.9vw, 1.35rem); }
   nav a { font-size: .78rem; }
@@ -146,7 +134,7 @@ h2 { font-size: clamp(2.9rem, 5.1vw, 5.1rem); line-height: 1.05; }
 
 @media (max-width: 360px) {
   .masthead-inner { width: calc(100% - 1.5rem); }
-  .signature img { width: 3rem; }
+  .signature img { width: 3.37rem; }
   nav { gap: .6rem; }
   nav a { font-size: .75rem; white-space: nowrap; }
 }

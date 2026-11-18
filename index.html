@@ -13,18 +13,18 @@
   <meta property="og:url" content="https://getcass.com/">
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="./assets/fraunces-roman.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="./site.css">
+  <link rel="stylesheet" href="./site.css?v=bloom">
   <link rel="stylesheet" href="./portfolio.css">
   <script type="module" src="./journal.js"></script>
-  <script type="module" src="./dot-grid.js"></script>
+  <script type="module" src="./bloom.js"></script>
 </head>
 <body id="top">
   <a class="skip" href="#main">Skip to content</a>
   <header class="masthead">
     <div class="wrap masthead-inner">
       <a class="signature" href="#top" aria-label="Cass Technologies, home">
-        <img src="./assets/cass-wordmark.svg" width="2739" height="730" alt="">
-        <span>technologies</span>
+        <img src="./assets/cass-dot-wordmark.svg" width="3356" height="915" alt="">
+        <span>Technologies</span>
       </a>
       <nav aria-label="Main navigation">
         <a href="#portfolio">Our apps</a>
@@ -41,19 +41,12 @@
           <p>Cass Technologies is the UK software company behind Macros, Petey and Cass.</p>
           <a class="action" href="#portfolio">Explore our apps <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v13m-5-5 5 5 5-5"/></svg></a>
         </div>
-        <figure class="hero-visual dot-study">
-          <div class="pattern-field">
-            <img class="pattern-fallback" src="./assets/dot-waves.svg" width="600" height="468" alt="">
-            <button class="pattern-control" type="button" aria-label="Change dot pattern" aria-describedby="pattern-help">
-              <canvas aria-hidden="true"></canvas>
-            </button>
-          </div>
-          <figcaption class="pattern-caption">
-            <span id="pattern-help"><span class="hover-hint">Hover over the dots</span><span class="tap-hint">Tap the dots</span><span class="key-hint">Press Enter or Space to explore</span></span>
-            <span class="pattern-name" aria-hidden="true">Waves</span>
-          </figcaption>
-          <span class="sr-only" role="status"></span>
-        </figure>
+        <div class="hero-visual pattern-field">
+          <img class="pattern-fallback" src="./assets/bloom-grid.svg" width="600" height="468" alt="">
+          <button class="pattern-control" type="button" aria-label="Reveal the bloom" hidden>
+            <canvas aria-hidden="true"></canvas>
+          </button>
+        </div>
       </div>
     </section>
     <section id="portfolio" class="portfolio" aria-labelledby="portfolio-heading">
@@ -92,9 +85,10 @@
       <div class="wrap company-inner">
         <h2 id="company-heading">Our company</h2>
         <div class="company-copy">
-          <p class="statement">Different apps, each with a job of its own.</p>
-          <p>Cass Technologies Ltd is an independent holding company for the apps we design and develop. Each has its own name, audience and purpose.</p>
-          <p>Our mission is to make everyday decisions easier. For Macros, that means helping someone understand what’s in a meal. For Petey, it means helping them find a trainer they’ll enjoy working with.</p>
+          <p class="statement">Give people their time back.</p>
+          <p>Cass Technologies Ltd is the independent company that owns and develops our apps. Our mission is to use AI to take the effort out of everyday tasks.</p>
+          <p>With Macros, a photo of your lunch becomes an estimate of its calories and nutrients. With Petey, a conversation about your goals, schedule and coaching style helps you find a personal trainer.</p>
+          <p>We design each app around the part it can take off your hands. Let Macros do the counting. Let Petey narrow the search. What you eat and who you train with are up to you.</p>
         </div>
       </div>
     </section>
