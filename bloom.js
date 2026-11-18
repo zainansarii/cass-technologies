@@ -1,5 +1,8 @@
 const width = 600;
 const height = 468;
+const bloomScale = 2;
+// The square reveal area fits the outer petals with a little room for their dots.
+const bloomFrame = 420 * bloomScale;
 const pitch = 14;
 const radius = 1.12;
 const paper = [186, 177, 187];
@@ -19,12 +22,12 @@ function petalInk(x, y, offset) {
   return clamp(Math.max(outer, inner));
 }
 
-// Keep the original 42-by-32 print in the desktop artwork. Outside it, the same lattice uses grey ink.
+// Scale the print around its centre while keeping the underlying dot lattice at its original pitch.
 function makeDot(col, row, hasFlower) {
   let p = 0, v = 0;
-  if (hasFlower && col >= 0 && col < 42 && row >= 0 && row < 32) {
-    const x = (col / 41 - .5) * 2.18;
-    const y = (row / 31 - .5) * 1.70;
+  if (hasFlower) {
+    const x = (col / 41 - .5) * 2.18 / bloomScale;
+    const y = (row / 31 - .5) * 1.70 / bloomScale;
     p = petalInk(x, y, .12);
     v = petalInk(x, y, -.12);
   }
@@ -89,10 +92,11 @@ function installBloom(hero) {
 
   function reveal(x, y, wholeFlower = false) {
     const now = performance.now();
-    const firstCol = wholeFlower ? 0 : Math.ceil((x - brushRadius - 13) / pitch);
-    const lastCol = wholeFlower ? 41 : Math.floor((x + brushRadius - 13) / pitch);
-    const firstRow = wholeFlower ? 0 : Math.ceil((y - brushRadius - 17) / pitch);
-    const lastRow = wholeFlower ? 31 : Math.floor((y + brushRadius - 17) / pitch);
+    const reach = wholeFlower ? bloomFrame / 2 : brushRadius;
+    const firstCol = Math.ceil((x - reach - 13) / pitch);
+    const lastCol = Math.floor((x + reach - 13) / pitch);
+    const firstRow = Math.ceil((y - reach - 17) / pitch);
+    const lastRow = Math.floor((y + reach - 17) / pitch);
     for (let row = firstRow; row <= lastRow; row++) {
       for (let col = firstCol; col <= lastCol; col++) {
         const distance = Math.hypot(13 + col * pitch - x, 17 + row * pitch - y);
@@ -146,10 +150,10 @@ function installBloom(hero) {
     hasFlower = bounds.width > 0 && bounds.height > 0;
     button.hidden = !hasFlower;
     const mobileScale = Math.min(inner.clientWidth, 432) / width;
-    scaleX = hasFlower ? bounds.width / width : mobileScale;
-    scaleY = hasFlower ? bounds.height / height : mobileScale;
-    originX = hasFlower ? bounds.left - backdrop.left : 0;
-    originY = hasFlower ? bounds.top - backdrop.top : 0;
+    scaleX = hasFlower ? bounds.width / bloomFrame : mobileScale;
+    scaleY = hasFlower ? bounds.height / bloomFrame : mobileScale;
+    originX = hasFlower ? bounds.left - backdrop.left + (bounds.width - width * scaleX) / 2 : 0;
+    originY = hasFlower ? bounds.top - backdrop.top + (bounds.height - height * scaleY) / 2 : 0;
     pattern.setAttribute('patternTransform', `matrix(${scaleX} 0 0 ${scaleY} ${originX} ${originY})`);
     const dpr = Math.min(devicePixelRatio || 1, 2);
     canvas.width = Math.max(1, Math.round(backdrop.width * dpr));
