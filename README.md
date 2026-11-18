@@ -12,4 +12,4 @@ GitHub Pages serves the root of the `main` branch. The production domain is `get
 
 ## Design and assets
 
-The company header uses lowercase TAN Nimbus lettering in offset pink and violet dots. The grey dots respond to pointer and touch across the hero. On desktop, the same grid contains a stationary five-petal bloom that can also be revealed with the keyboard. Each impression briefly holds and fades back to the neutral grid. The portfolio uses the Macros and Petey wordmarks. Fraunces, JetBrains Mono and the Momo Trust Display face in the Macros wordmark are distributed under the SIL Open Font License. Their notices are in `licenses/`.
+The company header uses lowercase TAN Nimbus lettering in offset pink and violet dots. Across the hero, the grey grid picks up a short trail of colour as the pointer or a fingertip passes. Each dot fades from its last contact. Reduced Motion keeps the grid still. The portfolio uses the Macros and Petey wordmarks. Fraunces, JetBrains Mono and the Momo Trust Display face in the Macros wordmark are distributed under the SIL Open Font License. Their notices are in `licenses/`.
