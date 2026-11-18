@@ -51,6 +51,8 @@ function strengthAt(dot, time) {
 
 function installBloom(button) {
   const canvas = button.querySelector('canvas');
+  const background = button.closest('.hero').querySelector('.hero-dots');
+  const pattern = background.querySelector('pattern');
   const ctx = canvas.getContext('2d');
   if (!ctx || !window.ResizeObserver) return;
   const dots = makeDots();
@@ -132,6 +134,11 @@ function installBloom(button) {
   button.hidden = false;
   function resize() {
     const bounds = canvas.getBoundingClientRect();
+    const backdrop = background.getBoundingClientRect();
+    // Continue the flower's lattice across the hero from the same origin and at the same scale.
+    const offsetX = bounds.left - backdrop.left;
+    const offsetY = bounds.top - backdrop.top;
+    pattern.setAttribute('patternTransform', `matrix(${bounds.width / width} 0 0 ${bounds.height / height} ${offsetX} ${offsetY})`);
     const dpr = Math.min(devicePixelRatio || 1, 2);
     canvas.width = Math.max(1, Math.round(bounds.width * dpr));
     canvas.height = Math.max(1, Math.round(bounds.height * dpr));
@@ -139,7 +146,9 @@ function installBloom(button) {
     paint(performance.now());
   }
   resize();
-  new ResizeObserver(resize).observe(button);
+  const layout = new ResizeObserver(resize);
+  layout.observe(button);
+  layout.observe(background);
 }
 
 document.querySelectorAll('.pattern-control').forEach(installBloom);

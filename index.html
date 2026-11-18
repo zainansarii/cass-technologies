@@ -13,9 +13,9 @@
   <meta property="og:url" content="https://getcass.com/">
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="./assets/fraunces-roman.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="./site.css?v=bloom-ink">
+  <link rel="stylesheet" href="./site.css?v=hero-dots">
   <link rel="stylesheet" href="./portfolio.css?v=two-apps">
-  <script type="module" src="./bloom.js?v=quick-fade"></script>
+  <script type="module" src="./bloom.js?v=hero-dots"></script>
 </head>
 <body id="top">
   <a class="skip" href="#main">Skip to content</a>
@@ -34,6 +34,14 @@
   </header>
   <main id="main" tabindex="-1">
     <section class="hero" aria-labelledby="home-title">
+      <svg class="hero-dots" aria-hidden="true" focusable="false" width="100%" height="100%">
+        <defs>
+          <pattern id="hero-dot-grid" x="6" y="10" width="14" height="14" patternUnits="userSpaceOnUse">
+            <circle cx="7" cy="7" r="1.12" fill="#bab1bb"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#hero-dot-grid)"/>
+      </svg>
       <div class="wrap hero-inner">
         <div class="hero-copy">
           <h1 id="home-title">AI for<br><em>everyday</em><br>health.</h1>
@@ -41,7 +49,6 @@
           <a class="action" href="#portfolio">Explore our apps <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v13m-5-5 5 5 5-5"/></svg></a>
         </div>
         <div class="hero-visual pattern-field">
-          <img class="pattern-fallback" src="./assets/bloom-grid.svg" width="600" height="468" alt="">
           <button class="pattern-control" type="button" aria-label="Reveal the bloom" hidden>
             <canvas aria-hidden="true"></canvas>
           </button>
