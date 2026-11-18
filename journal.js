@@ -1,5 +1,5 @@
 // The paired pink and violet fields follow the dot grid of Cass's original landing page.
-const palette = { paper: '#4e4956', pink: '#ff23b6', violet: '#8f5fff' };
+const palette = { grey: '#a8a8a8', pink: '#ff23b6', violet: '#8f5fff' };
 const duration = 3600;
 const tau = 2 * Math.PI;
 
@@ -55,7 +55,7 @@ function renderJournal(canvas) {
       const radius = pitch * 0.067 * (1 + strength);
       ctx.beginPath();
       ctx.arc(dot.x, dot.y, radius, 0, tau);
-      ctx.fillStyle = palette.paper;
+      ctx.fillStyle = palette.grey;
       ctx.fill();
       if (strength > 0) {
         ctx.globalAlpha = strength;

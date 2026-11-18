@@ -4,7 +4,7 @@ The public company website for Cass Technologies Ltd, the UK software company be
 
 ## Preview locally
 
-Run `python3 -m http.server 8000` from the repository root and visit `http://localhost:8000`. The site serves plain HTML and CSS, with a small optional canvas animation. There are no build dependencies.
+Run `python3 -m http.server 8000` from the repository root and visit `http://localhost:8000`. The site serves plain HTML and CSS, with optional canvas interactions. There are no build dependencies.
 
 ## Publish
 
@@ -12,4 +12,4 @@ GitHub Pages serves the root of the `main` branch. The production domain is `get
 
 ## Design and assets
 
-The Cass wordmark and journal-dot treatment are adapted from the original Cass web app. The hero prints the C from the original wordmark using offset pink and violet dot fields. The portfolio uses the Macros, Petey and Cass wordmarks. Fraunces, JetBrains Mono and the Momo Trust Display face in the Macros wordmark are distributed under the SIL Open Font License. Their notices are in `licenses/`.
+The Cass wordmark and journal-dot treatment are adapted from the original Cass web app. The company header uses outlined lowercase TAN Nimbus lettering. Hovering over the hero grid reveals four dot patterns. Tapping the grid or activating it with the keyboard also changes the pattern. A static wave print is available without JavaScript. The portfolio uses the Macros, Petey and Cass wordmarks. Fraunces, JetBrains Mono and the Momo Trust Display face in the Macros wordmark are distributed under the SIL Open Font License. Their notices are in `licenses/`.

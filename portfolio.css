@@ -66,7 +66,7 @@
 }
 
 .project-art--cass {
-  background: #19171d url("assets/cass-night-dots.svg") center / cover;
+  background: #fff url("assets/cass-journal-dots.svg") center / cover;
 }
 
 .project-art--cass:has(.journal-dots[data-ready]) {
@@ -83,6 +83,7 @@
 
 .project-art--cass img {
   width: 66%;
+  filter: brightness(0);
 }
 
 .portfolio-project h3 {

@@ -16,14 +16,15 @@
   <link rel="stylesheet" href="./site.css">
   <link rel="stylesheet" href="./portfolio.css">
   <script type="module" src="./journal.js"></script>
+  <script type="module" src="./dot-grid.js"></script>
 </head>
 <body id="top">
   <a class="skip" href="#main">Skip to content</a>
   <header class="masthead">
     <div class="wrap masthead-inner">
       <a class="signature" href="#top" aria-label="Cass Technologies, home">
-        <img src="./assets/cass.svg" width="1500" height="630" alt="">
-        <span>Technologies</span>
+        <img src="./assets/cass-wordmark.svg" width="2739" height="730" alt="">
+        <span>technologies</span>
       </a>
       <nav aria-label="Main navigation">
         <a href="#portfolio">Our apps</a>
@@ -40,9 +41,19 @@
           <p>Cass Technologies is the UK software company behind Macros, Petey and Cass.</p>
           <a class="action" href="#portfolio">Explore our apps <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v13m-5-5 5 5 5-5"/></svg></a>
         </div>
-        <div class="hero-visual" aria-hidden="true">
-          <img class="print" src="./assets/cass-print.svg" width="600" height="530" alt="" fetchpriority="high">
-        </div>
+        <figure class="hero-visual dot-study">
+          <div class="pattern-field">
+            <img class="pattern-fallback" src="./assets/dot-waves.svg" width="600" height="468" alt="">
+            <button class="pattern-control" type="button" aria-label="Change dot pattern" aria-describedby="pattern-help">
+              <canvas aria-hidden="true"></canvas>
+            </button>
+          </div>
+          <figcaption class="pattern-caption">
+            <span id="pattern-help"><span class="hover-hint">Hover over the dots</span><span class="tap-hint">Tap the dots</span><span class="key-hint">Press Enter or Space to explore</span></span>
+            <span class="pattern-name" aria-hidden="true">Waves</span>
+          </figcaption>
+          <span class="sr-only" role="status"></span>
+        </figure>
       </div>
     </section>
     <section id="portfolio" class="portfolio" aria-labelledby="portfolio-heading">
