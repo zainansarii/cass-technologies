@@ -1,8 +1,8 @@
 const width = 600;
 const height = 468;
-const bloomScale = 2;
-// The square reveal area fits the outer petals with a little room for their dots.
-const bloomFrame = 420 * bloomScale;
+const bloomScale = 1.7;
+// The desktop frame sets the grid pitch independently of the flower's scale.
+const bloomFrame = 840;
 const pitch = 14;
 const radius = 1.12;
 const paper = [186, 177, 187];
