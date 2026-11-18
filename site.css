@@ -70,7 +70,17 @@ nav svg, .action svg, .contact svg { width: 1em; height: 1em; fill: none; stroke
   min-height: calc(100dvh - var(--masthead-height));
   border-bottom: 1px solid var(--line);
 }
-.hero-dots { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.hero-dots { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.hero-dots:not([data-painted]) {
+  --pitch: clamp(25.5px, 7.2vw, 30px);
+  --radius: clamp(.82px, .235vw, 1.01px);
+  background-image: radial-gradient(circle, #a8a8a8 var(--radius), transparent calc(var(--radius) + .3px));
+  background-size: var(--pitch) var(--pitch);
+  background-position: calc(var(--pitch) / -2) calc(var(--pitch) / -2);
+}
+@media (min-width: 64rem) {
+  .hero-dots:not([data-painted]) { --pitch: 33px; --radius: 1.4px; }
+}
 .hero-inner { display: grid; place-items: center; text-align: center; padding-block: clamp(.75rem, 3vh, 3rem); }
 .hero-copy { position: relative; z-index: 1; }
 h1, h2, .statement { font-family: var(--display); font-weight: 500; letter-spacing: -.042em; }

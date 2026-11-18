@@ -12,4 +12,4 @@ GitHub Pages serves the root of the `main` branch. The production domain is `get
 
 ## Design and assets
 
-The company header uses lowercase TAN Nimbus lettering in offset pink and violet dots. Small pockets of the hero grid occasionally brighten in rose and violet around the edges. The grid stays still with Reduced Motion. The portfolio uses the Macros and Petey wordmarks. Fraunces, JetBrains Mono and the Momo Trust Display face in the Macros wordmark are distributed under the SIL Open Font License. Their notices are in `licenses/`.
+The company header uses lowercase TAN Nimbus lettering in offset pink and violet dots. The hero uses the original Cass web app’s journal dot pattern. One pink cluster and one violet cluster approach, orbit and part on a fixed grey grid. Reduced Motion shows the pair at rest. The portfolio uses the Macros and Petey wordmarks. Fraunces, JetBrains Mono and the Momo Trust Display face in the Macros wordmark are distributed under the SIL Open Font License. Their notices are in `licenses/`.
